@@ -10,17 +10,17 @@ fn main() {
          let mut two_digit: String = String::from("");       
          let first = first_digit(&line);
          let reversed: String =  line.chars().rev().collect();
-
          let last = first_digit(&reversed);
          add_to_string(&mut two_digit, first);   
          add_to_string(&mut two_digit, last);     
          println!("{}", two_digit);
 
-         if let int_num = two_digit.parse::<i32>().expect("Failed to parse string as integer") {
-            sum += int_num;
-         }
-         
-         
+         let int_num = match two_digit.parse::<i32>(){
+            Ok(i) => i,   
+            Err(error) => 0,
+         };
+
+         sum += int_num;
     }
     
     println!("Answer = {}", sum);
