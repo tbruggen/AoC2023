@@ -50,7 +50,7 @@ fn main() {
 
     let mut sum:i32 = 0;
     for game in games{
-        if game_possible(&game){
+        if game.is_possible(){
             sum += game.id;
         }        
     }    
@@ -72,15 +72,19 @@ struct Game{
     runs: Vec<Run>
 }
 
-fn game_possible(game: &Game) -> bool{
-    for run in &game.runs{
-        if run.red > 12 || run.green > 13 || run.blue > 14
-        {
-            return false;
-        }
-    }    
-    true
+impl Game{
+    fn is_possible(&self) -> bool{
+        for run in &self.runs{
+            if run.red > 12 || run.green > 13 || run.blue > 14
+            {
+                return false;
+            }
+        }    
+        true
+    }
 }
+
+
 
 fn extract_id(line: &String) -> i32{
     let colon_index = line.find(':').expect("syntax error in input");
