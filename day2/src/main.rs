@@ -55,7 +55,7 @@ fn main() {
         }        
     }    
 
-    println!("Some of game IDs of possible games: {}", sum);
+    println!("Sum of game IDs of possible games: {}", sum);
 
         
     // game id
