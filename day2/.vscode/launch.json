@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/target/debug/day2",
+            "args": ["${workspaceFolder}/testset.txt"],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "sourceLanguages": ["rust"],
+            "preLaunchTask": "build"
+        }
+    ]
+}

@@ -46,20 +46,6 @@ fn first_number(line: &String) -> Option<char>
     None
 }
 
-// Returns Some(char) when the input string starts with a digit.
-#[test]
-fn test_starts_with_digit() {
-    let line = String::from("123abc");
-    assert_eq!(first_number(&line), Some('1'));
-}
-
-// Returns Some(char) when the input string starts with a spelled out number.
-#[test]
-fn test_starts_with_spelled_number() {
-    let line = String::from("one 2 three");
-    assert_eq!(first_number(&line), Some('1'));
-}
-
 
 fn last_number(line: &String) -> Option<char>
 {    
@@ -83,26 +69,6 @@ fn last_number(line: &String) -> Option<char>
     None
 }
 
-// Returns Some(char) when the input string starts with a digit.
-#[test]
-fn test_ends_with_digit() {
-    let line = String::from("123abc");
-    assert_eq!(last_number(&line), Some('3'));
-}
-
-// Returns Some(char) when the input string starts with a spelled out number.
-#[test]
-fn test_ends_with_spelled_number() {
-    let line = String::from("one 2 three");
-    assert_eq!(last_number(&line), Some('3'));
-}
-
-#[test]
-fn should_return_7() {
-    let line = String::from("tdszrfzspthree2ttzseven5seven");
-    let result = last_number(&line);
-    assert_eq!(result, Some('7'));
-}
 
 
 fn written_word_to_char(number: &str) -> Option<char>{
@@ -140,27 +106,6 @@ fn first_spelled_number(line: &str) -> Option<(usize, &str)>
     Some(ret)
 }
 
-#[test]
-fn should_return_some_position_number_with_line_containing_spelled_out_number() {
-    let line = "This is one example";
-    let result = first_spelled_number(line);
-    assert_eq!(result, Some((8, "one")));
-}
-
-#[test]
-fn should_return_the_first_spelled_number() {
-    let line = "two one";
-    let result = first_spelled_number(line);
-    assert_eq!(result, Some((0, "two")));
-}
-
-// should return None when given a line that does not contain any spelled-out numbers
-#[test]
-fn should_return_none_with_line_not_containing_spelled_out_numbers() {
-    let line = "This is an example";
-    let result = first_spelled_number(line);
-    assert_eq!(result, None);
-}
 
 fn last_spelled_number(line: &str) -> Option<(usize, &str)>{
     let spelled_numbers = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
@@ -180,15 +125,6 @@ fn last_spelled_number(line: &str) -> Option<(usize, &str)>{
     // If no match is found
     Some(ret)
 }
-
-#[test]
-fn should_return_the_second_spelled_number() {
-    let line = "two one";
-    let result = last_spelled_number(line);
-    assert_eq!(result, Some((4, "one")));
-}
-
-
 
 
 
@@ -254,9 +190,6 @@ fn should_return_none_with_non_spelled_out_number_or_invalid_string() {
     assert_eq!(result, None);
 }
 
-// should return Some((position, number)) when given a line containing a spelled-out number
-
-
 // Should return a vector of strings when given a valid file path.
 #[test]
 fn should_return_vector_of_strings_with_valid_file_path() {
@@ -278,5 +211,74 @@ fn should_return_some_char_with_digit_as_first_character() {
 fn should_return_none_with_no_digits() {
     let line = "abc";
     let result = first_digit(line);
+    assert_eq!(result, None);
+}
+
+
+// Returns Some(char) when the input string starts with a digit.
+#[test]
+fn test_ends_with_digit() {
+    let line = String::from("123abc");
+    assert_eq!(last_number(&line), Some('3'));
+}
+
+// Returns Some(char) when the input string starts with a spelled out number.
+#[test]
+fn test_ends_with_spelled_number() {
+    let line = String::from("one 2 three");
+    assert_eq!(last_number(&line), Some('3'));
+}
+
+#[test]
+fn should_return_7() {
+    let line = String::from("tdszrfzspthree2ttzseven5seven");
+    let result = last_number(&line);
+    assert_eq!(result, Some('7'));
+}
+
+
+// Returns Some(char) when the input string starts with a digit.
+#[test]
+fn test_starts_with_digit() {
+    let line = String::from("123abc");
+    assert_eq!(first_number(&line), Some('1'));
+}
+
+// Returns Some(char) when the input string starts with a spelled out number.
+#[test]
+fn test_starts_with_spelled_number() {
+    let line = String::from("one 2 three");
+    assert_eq!(first_number(&line), Some('1'));
+}
+
+
+#[test]
+fn should_return_the_second_spelled_number() {
+    let line = "two one";
+    let result = last_spelled_number(line);
+    assert_eq!(result, Some((4, "one")));
+}
+
+
+
+#[test]
+fn should_return_some_position_number_with_line_containing_spelled_out_number() {
+    let line = "This is one example";
+    let result = first_spelled_number(line);
+    assert_eq!(result, Some((8, "one")));
+}
+
+#[test]
+fn should_return_the_first_spelled_number() {
+    let line = "two one";
+    let result = first_spelled_number(line);
+    assert_eq!(result, Some((0, "two")));
+}
+
+// should return None when given a line that does not contain any spelled-out numbers
+#[test]
+fn should_return_none_with_line_not_containing_spelled_out_numbers() {
+    let line = "This is an example";
+    let result = first_spelled_number(line);
     assert_eq!(result, None);
 }

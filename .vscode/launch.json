@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/day1/target/debug/day1",
+            "args": ["${workspaceFolder}/day1/calib.txt"],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "sourceLanguages": ["rust"],
+            "preLaunchTask": "build"
+        }
+    ]
+}
