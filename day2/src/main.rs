@@ -49,14 +49,19 @@ fn main() {
     }
 
     let mut sum:i32 = 0;
+    let mut sum_powers = 0;
     for game in games{
         if game.is_possible(){
             sum += game.id;
         }        
+        let min_cubes = game.min_required_cubes();
+        let pow: u32 = min_cubes.red * min_cubes.green * min_cubes.blue;
+        sum_powers += pow;
     }    
 
     println!("Sum of game IDs of possible games: {}", sum);
-
+    println!("Sum of game powers: {}", sum_powers);
+        
         
     // game id
 }
@@ -81,6 +86,15 @@ impl Game{
             }
         }    
         true
+    }
+
+    fn min_required_cubes(&self) -> Run{
+        let max_red = &self.runs.iter().map(|run| run.red).max().unwrap_or(0);
+        let max_green = &self.runs.iter().map(|run| run.green).max().unwrap_or(0);
+        let max_blue = &self.runs.iter().map(|run| run.blue).max().unwrap_or(0);
+
+        let ret: Run = Run{red:*max_red, blue:*max_blue, green:*max_green};
+        ret
     }
 }
 
