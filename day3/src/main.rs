@@ -19,11 +19,12 @@ fn main() {
             if !(c.is_numeric() || *c == '.') {
                 //println!("{} is a symbol on coord ({},{})", c, row_ix, col_ix);
                 symbol_coords.push((row_ix, col_ix));                
+                if *c == '*'
+                {
+                    gears.push((row_ix, col_ix));
+                }
             }
-            else if *c == '*'
-            {
-                gears.push((row_ix, col_ix));
-            }
+            
             else{
                // println!("{} is not a symbol", c);
             }
@@ -35,15 +36,17 @@ fn main() {
     let mut numbers: Vec<i32> = Vec::new();
    
     for (row,col) in symbol_coords{
-        numbers.append(&mut iterate_surrounding_elements(&matrix, row, col, Some(&mut visited_coordinates)));
+        numbers.append(&mut iterate_surrounding_elements(&matrix, row, col, &mut visited_coordinates));
     }
 
+
+    let mut visited_coordinates: HashSet<(usize,usize)> = HashSet::new();
     let mut sum_of_ratios: i32 = 0;
     for (row,col) in gears{
-        let surrounding: Vec<i32> = iterate_surrounding_elements(&matrix, row, col, None);
+        let surrounding: Vec<i32> = iterate_surrounding_elements(&matrix, row, col, &mut visited_coordinates);
         if surrounding.len() == 2
         {
-            let ratio: i32 = surrounding[0]*surrounding[2];
+            let ratio: i32 = surrounding[0]*surrounding[1];
             sum_of_ratios += ratio;
         }
     }
@@ -68,7 +71,7 @@ fn convert_to_matrix(lines: Vec<String>) -> Vec<Vec<char>>
 }
 
 fn iterate_surrounding_elements(matrix: &Vec<Vec<char>>, row: usize, 
-    col: usize, visited_coordinates: Option<&mut HashSet<(usize,usize)>>) -> Vec<i32>
+    col: usize, visited_coordinates: &mut HashSet<(usize,usize)>) -> Vec<i32>
 {
     let rows = matrix.len();
     let cols = matrix[0].len();
@@ -78,13 +81,8 @@ fn iterate_surrounding_elements(matrix: &Vec<Vec<char>>, row: usize,
     for i in (row.saturating_sub(1))..(row + 2).min(rows) {
         for j in (col.saturating_sub(1))..(col + 2).min(cols) {
             // Skip the current element
-
-            let already_visited: bool = match visited_coordinates{
-                Some(vc) => vc.contains(&(i,j)),
-                None => false
-            };
-
-            if (i == row && j == col) || already_visited{
+          
+            if (i == row && j == col) || visited_coordinates.contains(&(i,j)){
                 continue;
             }
 
@@ -107,7 +105,7 @@ fn iterate_surrounding_elements(matrix: &Vec<Vec<char>>, row: usize,
     numbers
 }
 
-fn find_consecutive_numerics(matrix: &Vec<Vec<char>>, i: usize, j:usize, visited_coordinates: Option<&mut HashSet<(usize, usize)>>) -> i32 {
+fn find_consecutive_numerics(matrix: &Vec<Vec<char>>, i: usize, j:usize, visited_coordinates: &mut HashSet<(usize, usize)>) -> i32 {
     let mut result = String::new();
     let chars = &matrix[i];
 
@@ -125,18 +123,11 @@ fn find_consecutive_numerics(matrix: &Vec<Vec<char>>, i: usize, j:usize, visited
 
     // Construct the result string
     for k in left..=right {
-
-        let _ = match visited_coordinates{
-            Some(vc) => vc.insert((i,k)),
-            None => false
-        };
-        
+        visited_coordinates.insert((i,k));   
         result.push(chars[k]);
     }
-
     
     let int_num = result.parse::<i32>().expect("error while converting &str to u32");
-
     int_num
 }
 
